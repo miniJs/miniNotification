@@ -8,26 +8,27 @@
 $ ->
     $.miniNotification = (element, options) ->
         @defaults = {
-            position: 'top', # string, position top or bottom,
-            show: true, # boolean, show on load
-            effect: 'slide', #notification animation effect 'slide' or 'fade'
+            position        : 'top'     # string, position top or bottom,
+            show            : true      # boolean, show on load
+            effect          : 'slide'   # notification animation effect 'slide' or 'fade'
+            opacity         : 0.95      # number, notification opacity
 
-            # showHideButton: false, # generate the hide button
-            # hideOnClick: true, # hide notification when clicked
-
-            time: 2000, # animation time
-            showSpeed: 600, # number, animation showing speed in milliseconds
-            hideSpeed: 450, # number, animation hiding speed in milliseconds
+            time            : 2000      # animation time
+            showSpeed       : 600       # number, animation showing speed in milliseconds
+            hideSpeed       : 450       # number, animation hiding speed in milliseconds
             
-            showEasing: '', # string, easing equation on load, must load http:#gsgd.co.uk/sandbox/jquery/easing/
-            hideEasing: '', # string, easing equation on hide, must load http:#gsgd.co.uk/sandbox/jquery/easing/
+            showEasing      : ''        # string, easing equation on load, must load http:#gsgd.co.uk/sandbox/jquery/easing/
+            hideEasing      : ''        # string, easing equation on hide, must load http:#gsgd.co.uk/sandbox/jquery/easing/
 
-            onLoad: -> , # Function, called when the notification is being loaded
-            onVisible: -> ,  # Function, called when the notification is loaded
-            onHide: -> , # Function, called when notification is hidding
-            onHidden: -> # Function, called when notification is hidden
+            onLoad          : ->        # Function, called when the notification is being loaded
+            onVisible       : ->        # Function, called when the notification is loaded
+            onHide          : ->        # Function, called when notification is hidding
+            onHidden        : ->        # Function, called when notification is hidden
+
+            # closeButton     : false     # boolean, generate the hide button
+            # textCloseButton : 'hide'    # string, hide button text
+            # hideOnClick     : true      # hide notification when clicked
         }
-
 
         miniNotification = this
 
@@ -40,11 +41,33 @@ $ ->
         # notification element
         @$element = $ element
 
+        #
         # private methods
+        #
         setState = (_state) ->
           state = _state
 
+        getHiddenCssProps = =>
+          # set notification y position
+          position = if (@getSetting 'effect') == 'slide' then (0 - @$element.outerHeight()) else 0
+
+          # return css properties
+          'position' : 'fixed'
+          'display'  : 'block'
+          'z-index'  : 9999999
+          'top'      : position unless (@getSetting 'position') is 'bottom'
+          'bottom'   : position if (@getSetting 'position') is 'bottom'
+          'opacity'  : 0 if (@getSetting 'effect') is 'fade'
+
+        getVisibleCssProps = =>
+          # return css properties
+          'opacity'  : (@getSetting 'opacity')
+          'top'      : 0 unless (@getSetting 'position') is 'bottom'
+          'bottom'   : 0 if (@getSetting 'position') is 'bottom'
+
+        #
         # public methods
+        #
         @getState = ->
           state
 
@@ -54,26 +77,6 @@ $ ->
         @callSettingFunction = (functionName) ->
           @settings[functionName]()
 
-        @getHiddenCssProps = ->
-          # set notification y position
-          position = if (@getSetting 'effect') == 'slide' then (0 - @$element.outerHeight()) else 0
-          console.log @$element.outerHeight()
-
-          # return css properties
-          'position' : 'absolute'
-          'display'  : 'block'
-          'top'      : position unless (@getSetting 'position') == 'bottom'
-          'bottom'   : position if (@getSetting 'position') == 'bottom'
-          'opacity'  : 0 if (@getSetting 'effect') == 'fade'
-          'z-index'  : 9999999
-
-        @getVisibleCssProps = ->
-          # return css properties
-          'opacity'  : 1
-          'top'      : 0 unless (@getSetting 'position') == 'bottom'
-          'bottom'   : 0 if (@getSetting 'position') == 'bottom'
-
-
         @init = ->
             setState 'hidden'
 
@@ -82,34 +85,34 @@ $ ->
             # Check the existence of the element
             if @$element.length
               # set css properties
-              @$element.css @getHiddenCssProps()
+              @$element.css getHiddenCssProps()
 
               # show notification
-              miniNotification.show() if @settings.show
+              @show() if @settings.show
 
 
         # Show notification
         @show = ->
           setState 'showing'
           @callSettingFunction 'onLoad'
-          @$element.animate(@getVisibleCssProps(), (@getSetting 'showSpeed'), (@getSetting 'showEasing'), ->
+          @$element.animate(getVisibleCssProps(), (@getSetting 'showSpeed'), (@getSetting 'showEasing'), =>
             setState 'visible'
-            miniNotification.callSettingFunction 'onVisible'
-            setTimeout (-> miniNotification.hide()), miniNotification.settings.time
+            @callSettingFunction 'onVisible'
+            setTimeout (=> @hide()), @settings.time
           )
 
         # hide notification
         @hide = ->
           setState 'hiding'
           @callSettingFunction 'onHide'
-          @$element.animate(@getHiddenCssProps(), (@getSetting 'hideSpeed'), (@getSetting 'hideEasing'), ->
+          @$element.animate(getHiddenCssProps(), (@getSetting 'hideSpeed'), (@getSetting 'hideEasing'), =>
             setState 'hidden'
-            miniNotification.callSettingFunction 'onHidden'
+            @callSettingFunction 'onHidden'
           )
 
 
         # Initialize the notification
-        miniNotification.init()
+        @init()
 
     $.fn.miniNotification = (options) ->
         return this.each ->
