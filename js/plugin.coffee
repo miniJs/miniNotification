@@ -16,8 +16,9 @@ $ ->
             hideEasing: '', # string, easing equation on hide, must load http:#gsgd.co.uk/sandbox/jquery/easing/
 
             onLoad: -> , # Function, called when the notification is being loaded
-            onShow: -> ,  # Function, called when the notification is loaded
-            onHide: -> # Function, called when notification is hidden
+            onVisible: -> ,  # Function, called when the notification is loaded
+            onHide: -> , # Function, called when notification is hidding
+            onHidden: -> # Function, called when notification is hidden
         }
 
 
@@ -43,6 +44,9 @@ $ ->
 
         @getSetting = (settingKey) ->
           @settings[settingKey]
+
+        @callSettingFunction = (functionName) ->
+          @settings[functionName]()
 
         @getHiddenCssProps = ->
           # set notification y position
@@ -80,17 +84,20 @@ $ ->
         # Show notification
         @show = ->
           setState 'showing'
-
+          @callSettingFunction 'onLoad'
           @$element.animate(@getVisibleCssProps(), (@getSetting 'showSpeed'), (@getSetting 'showEasing'), ->
             setState 'visible'
+            @callSettingFunction 'onVisible'
             setTimeout (-> miniNotification.hide()), miniNotification.settings.time
           )
 
         # hide notification
         @hide = ->
           setState 'hiding'
+          @callSettingFunction 'onHide'
           @$element.animate(@getHiddenCssProps(), (@getSetting 'hideSpeed'), (@getSetting 'hideEasing'), ->
             setState 'hidden'
+            @callSettingFunction 'onHidden'
           )
 
 

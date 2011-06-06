@@ -14,8 +14,9 @@
         showEasing: '',
         hideEasing: '',
         onLoad: function() {},
-        onShow: function() {},
-        onHide: function() {}
+        onVisible: function() {},
+        onHide: function() {},
+        onHidden: function() {}
       };
       miniNotification = this;
       state = '';
@@ -30,6 +31,9 @@
       };
       this.getSetting = function(settingKey) {
         return this.settings[settingKey];
+      };
+      this.callSettingFunction = function(functionName) {
+        return this.settings[functionName]();
       };
       this.getHiddenCssProps = function() {
         var position;
@@ -61,8 +65,10 @@
       };
       this.show = function() {
         setState('showing');
+        this.callSettingFunction('onLoad');
         return this.$element.animate(this.getVisibleCssProps(), this.getSetting('showSpeed'), this.getSetting('showEasing'), function() {
           setState('visible');
+          this.callSettingFunction('onVisible');
           return setTimeout((function() {
             return miniNotification.hide();
           }), miniNotification.settings.time);
@@ -70,8 +76,10 @@
       };
       this.hide = function() {
         setState('hiding');
+        this.callSettingFunction('onHide');
         return this.$element.animate(this.getHiddenCssProps(), this.getSetting('hideSpeed'), this.getSetting('hideEasing'), function() {
-          return setState('hidden');
+          setState('hidden');
+          return this.callSettingFunction('onHidden');
         });
       };
       return miniNotification.init();
