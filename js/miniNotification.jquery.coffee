@@ -1,6 +1,6 @@
 #
-# Slides, A Slideshow Plugin for jQuery
-# Intructions: Coming Soon
+# Mini Notification, a notification plugin for jQuery
+# Instructions: Coming Soon
 # By: Nathan Searles, http://www.mynameismatthieu.com
 # Version: 0.1
 # Updated: June 6th, 2011
@@ -52,7 +52,7 @@ $ ->
           # set notification y position
           position = if (@getSetting 'effect') == 'slide' then (0 - @$element.outerHeight()) else 0
 
-          # return css properties
+          # return css properties object
           'position' : 'fixed'
           'display'  : 'block'
           'z-index'  : 9999999
@@ -61,7 +61,7 @@ $ ->
           'opacity'  : 0 if (@getSetting 'effect') is 'fade'
 
         getVisibleCssProps = =>
-          # return css properties
+          # return css properties object
           'opacity'  : (@getSetting 'opacity')
           'top'      : 0 unless (@getSetting 'position') is 'bottom'
           'bottom'   : 0 if (@getSetting 'position') is 'bottom'
