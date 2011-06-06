@@ -1,4 +1,15 @@
 /* Matthieu Aussaguel */
 /* 06/06/11           */
 
-#mini-notification { display: none;}
+#mini-notification {
+    display: none;
+    cursor: pointer;
+    width: 100%;
+    background-color: #fff;
+    position: fixed;
+    text-align: center;
+    margin: 0;
+    border-top: 2px solid #fff;
+    border-bottom: 1px solid #ebebeb;
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity = 95); opacity: 0.95; -moz-opacity: 0.95;
+}

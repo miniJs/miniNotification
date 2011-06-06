@@ -1,3 +1,10 @@
+#
+# Slides, A Slideshow Plugin for jQuery
+# Intructions: Coming Soon
+# By: Nathan Searles, http://www.mynameismatthieu.com
+# Version: 0.1
+# Updated: June 6th, 2011
+
 $ ->
     $.miniNotification = (element, options) ->
         @defaults = {
@@ -5,8 +12,8 @@ $ ->
             show: true, # boolean, show on load
             effect: 'slide', #notification animation effect 'slide' or 'fade'
 
-            showHideButton: false, # generate the hide button
-            hideOnClick: true, # hide notification when clicked
+            # showHideButton: false, # generate the hide button
+            # hideOnClick: true, # hide notification when clicked
 
             time: 2000, # animation time
             showSpeed: 600, # number, animation showing speed in milliseconds
@@ -36,7 +43,6 @@ $ ->
         # private methods
         setState = (_state) ->
           state = _state
-          console.log state
 
         # public methods
         @getState = ->
@@ -50,8 +56,8 @@ $ ->
 
         @getHiddenCssProps = ->
           # set notification y position
-          position = if (@getSetting 'effect') == 'slide' then (0 - @$element.height()) else 0
-
+          position = if (@getSetting 'effect') == 'slide' then (0 - @$element.outerHeight()) else 0
+          console.log @$element.outerHeight()
 
           # return css properties
           'position' : 'absolute'
@@ -59,6 +65,7 @@ $ ->
           'top'      : position unless (@getSetting 'position') == 'bottom'
           'bottom'   : position if (@getSetting 'position') == 'bottom'
           'opacity'  : 0 if (@getSetting 'effect') == 'fade'
+          'z-index'  : 9999999
 
         @getVisibleCssProps = ->
           # return css properties
@@ -87,7 +94,7 @@ $ ->
           @callSettingFunction 'onLoad'
           @$element.animate(@getVisibleCssProps(), (@getSetting 'showSpeed'), (@getSetting 'showEasing'), ->
             setState 'visible'
-            @callSettingFunction 'onVisible'
+            miniNotification.callSettingFunction 'onVisible'
             setTimeout (-> miniNotification.hide()), miniNotification.settings.time
           )
 
@@ -97,7 +104,7 @@ $ ->
           @callSettingFunction 'onHide'
           @$element.animate(@getHiddenCssProps(), (@getSetting 'hideSpeed'), (@getSetting 'hideEasing'), ->
             setState 'hidden'
-            @callSettingFunction 'onHidden'
+            miniNotification.callSettingFunction 'onHidden'
           )
 
 

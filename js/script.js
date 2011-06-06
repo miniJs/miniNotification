@@ -1,3 +1,3 @@
 $(function() {
-    $('#mini-notification').miniNotification({'position': 'bottom'});
+    $('#mini-notification').miniNotification();
   });

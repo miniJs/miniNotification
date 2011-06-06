@@ -6,8 +6,6 @@
         position: 'top',
         show: true,
         effect: 'slide',
-        showHideButton: false,
-        hideOnClick: true,
         time: 2000,
         showSpeed: 600,
         hideSpeed: 450,
@@ -23,8 +21,7 @@
       this.settings = {};
       this.$element = $(element);
       setState = function(_state) {
-        state = _state;
-        return console.log(state);
+        return state = _state;
       };
       this.getState = function() {
         return state;
@@ -37,13 +34,15 @@
       };
       this.getHiddenCssProps = function() {
         var position;
-        position = (this.getSetting('effect')) === 'slide' ? 0 - this.$element.height() : 0;
+        position = (this.getSetting('effect')) === 'slide' ? 0 - this.$element.outerHeight() : 0;
+        console.log(this.$element.outerHeight());
         return {
           'position': 'absolute',
           'display': 'block',
           'top': (this.getSetting('position')) !== 'bottom' ? position : void 0,
           'bottom': (this.getSetting('position')) === 'bottom' ? position : void 0,
-          'opacity': (this.getSetting('effect')) === 'fade' ? 0 : void 0
+          'opacity': (this.getSetting('effect')) === 'fade' ? 0 : void 0,
+          'z-index': 9999999
         };
       };
       this.getVisibleCssProps = function() {
@@ -68,7 +67,7 @@
         this.callSettingFunction('onLoad');
         return this.$element.animate(this.getVisibleCssProps(), this.getSetting('showSpeed'), this.getSetting('showEasing'), function() {
           setState('visible');
-          this.callSettingFunction('onVisible');
+          miniNotification.callSettingFunction('onVisible');
           return setTimeout((function() {
             return miniNotification.hide();
           }), miniNotification.settings.time);
@@ -79,7 +78,7 @@
         this.callSettingFunction('onHide');
         return this.$element.animate(this.getHiddenCssProps(), this.getSetting('hideSpeed'), this.getSetting('hideEasing'), function() {
           setState('hidden');
-          return this.callSettingFunction('onHidden');
+          return miniNotification.callSettingFunction('onHidden');
         });
       };
       return miniNotification.init();
