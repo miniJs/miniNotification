@@ -8,26 +8,27 @@
 $ ->
     $.miniNotification = (element, options) ->
         @defaults = {
-            position        : 'top'     # string, position top or bottom,
-            show            : true      # boolean, show on load
-            effect          : 'slide'   # notification animation effect 'slide' or 'fade'
-            opacity         : 0.95      # number, notification opacity
+            position         : 'top'     # string, position top or bottom,
+            show             : true      # boolean, show on load
+            effect           : 'slide'   # notification animation effect 'slide' or 'fade'
+            opacity          : 0.95      # number, notification opacity
 
-            time            : 2000      # animation time
-            showSpeed       : 600       # number, animation showing speed in milliseconds
-            hideSpeed       : 450       # number, animation hiding speed in milliseconds
+            time             : 2000      # animation time
+            showSpeed        : 600       # number, animation showing speed in milliseconds
+            hideSpeed        : 450       # number, animation hiding speed in milliseconds
             
-            showEasing      : ''        # string, easing equation on load, must load http:#gsgd.co.uk/sandbox/jquery/easing/
-            hideEasing      : ''        # string, easing equation on hide, must load http:#gsgd.co.uk/sandbox/jquery/easing/
+            showEasing       : ''        # string, easing equation on load, must load http:#gsgd.co.uk/sandbox/jquery/easing/
+            hideEasing       : ''        # string, easing equation on hide, must load http:#gsgd.co.uk/sandbox/jquery/easing/
 
-            onLoad          : ->        # Function, called when the notification is being loaded
-            onVisible       : ->        # Function, called when the notification is loaded
-            onHide          : ->        # Function, called when notification is hidding
-            onHidden        : ->        # Function, called when notification is hidden
+            onLoad           : ->        # Function, called when the notification is being loaded
+            onVisible        : ->        # Function, called when the notification is loaded
+            onHide           : ->        # Function, called when notification is hidding
+            onHidden         : ->        # Function, called when notification is hidden
 
-            # closeButton     : false     # boolean, generate the hide button
-            # textCloseButton : 'hide'    # string, hide button text
-            # hideOnClick     : true      # hide notification when clicked
+            # closeButton      : false     # boolean, generate the hide button
+            # closeButtonText  : 'hide'    # string, hide button text
+            # closeButtonClass : 'hide'    # string, hide button text
+            # hideOnClick      : true      # hide notification when clicked
         }
 
         miniNotification = this
