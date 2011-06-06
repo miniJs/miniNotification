@@ -1,32 +1,79 @@
 (function() {
   $(function() {
     $.miniNotification = function(element, options) {
-      var $element, defaults, foo_private_method, miniNotification;
-      defaults = {
-        notificationId: 'mini-notification',
+      var miniNotification, setState, state;
+      this.defaults = {
         position: 'top',
         show: true,
-        time: 2000,
         effect: 'slide',
         showHideButton: false,
         hideOnClick: true,
-        showSpeed: 300,
-        hideSpeed: 250,
-        showAnimationEasing: '',
-        hideAnimationEasing: '',
+        time: 2000,
+        showSpeed: 600,
+        hideSpeed: 450,
+        showEasing: '',
+        hideEasing: '',
         onLoad: function() {},
         onShow: function() {},
         onHide: function() {}
       };
       miniNotification = this;
-      miniNotification.settings = {};
-      $element = $(element);
-      miniNotification.init = function() {
-        miniNotification.settings = $.extend({}, defaults, options);
-        return miniNotification.settings.callback(element, miniNotification.settings.message);
+      state = '';
+      this.settings = {};
+      this.$element = $(element);
+      setState = function(_state) {
+        state = _state;
+        return console.log(state);
       };
-      miniNotification.show = function() {};
-      foo_private_method = function() {};
+      this.getState = function() {
+        return state;
+      };
+      this.getSetting = function(settingKey) {
+        return this.settings[settingKey];
+      };
+      this.getHiddenCssProps = function() {
+        var position;
+        position = (this.getSetting('effect')) === 'slide' ? 0 - this.$element.height() : 0;
+        return {
+          'position': 'absolute',
+          'display': 'block',
+          'top': (this.getSetting('position')) !== 'bottom' ? position : void 0,
+          'bottom': (this.getSetting('position')) === 'bottom' ? position : void 0,
+          'opacity': (this.getSetting('effect')) === 'fade' ? 0 : void 0
+        };
+      };
+      this.getVisibleCssProps = function() {
+        return {
+          'opacity': 1,
+          'top': (this.getSetting('position')) !== 'bottom' ? 0 : void 0,
+          'bottom': (this.getSetting('position')) === 'bottom' ? 0 : void 0
+        };
+      };
+      this.init = function() {
+        setState('hidden');
+        this.settings = $.extend({}, this.defaults, options);
+        if (this.$element.length) {
+          this.$element.css(this.getHiddenCssProps());
+          if (this.settings.show) {
+            return miniNotification.show();
+          }
+        }
+      };
+      this.show = function() {
+        setState('showing');
+        return this.$element.animate(this.getVisibleCssProps(), this.getSetting('showSpeed'), this.getSetting('showEasing'), function() {
+          setState('visible');
+          return setTimeout((function() {
+            return miniNotification.hide();
+          }), miniNotification.settings.time);
+        });
+      };
+      this.hide = function() {
+        setState('hiding');
+        return this.$element.animate(this.getHiddenCssProps(), this.getSetting('hideSpeed'), this.getSetting('hideEasing'), function() {
+          return setState('hidden');
+        });
+      };
       return miniNotification.init();
     };
     return $.fn.miniNotification = function(options) {

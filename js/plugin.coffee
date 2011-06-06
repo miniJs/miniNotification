@@ -1,21 +1,20 @@
 $ ->
     $.miniNotification = (element, options) ->
-        defaults = {
-            notificationId: 'mini-notification',
+        @defaults = {
             position: 'top', # string, position top or bottom,
             show: true, # boolean, show on load
-            time: 2000, # animation time
             effect: 'slide', #notification animation effect 'slide' or 'fade'
 
             showHideButton: false, # generate the hide button
             hideOnClick: true, # hide notification when clicked
-            showSpeed: 300, # number, animation showing speed in milliseconds
 
-            hideSpeed: 250, # number, animation hiding speed in milliseconds
-            showAnimationEasing: '', # string, easing equation on load, must load http:#gsgd.co.uk/sandbox/jquery/easing/
-            hideAnimationEasing: '', # string, easing equation on hide, must load http:#gsgd.co.uk/sandbox/jquery/easing/
+            time: 2000, # animation time
+            showSpeed: 600, # number, animation showing speed in milliseconds
+            hideSpeed: 450, # number, animation hiding speed in milliseconds
             
-            
+            showEasing: '', # string, easing equation on load, must load http:#gsgd.co.uk/sandbox/jquery/easing/
+            hideEasing: '', # string, easing equation on hide, must load http:#gsgd.co.uk/sandbox/jquery/easing/
+
             onLoad: -> , # Function, called when the notification is being loaded
             onShow: -> ,  # Function, called when the notification is loaded
             onHide: -> # Function, called when notification is hidden
@@ -24,21 +23,75 @@ $ ->
 
         miniNotification = this
 
-        miniNotification.settings = {}
+        # current state of the notification
+        state = ''
 
-        $element = $ element
+        # notification settings
+        @settings = {}
 
-        miniNotification.init = ->
-            miniNotification.settings = $.extend {}, defaults, options
-            miniNotification.settings.callback element, miniNotification.settings.message
+        # notification element
+        @$element = $ element
+
+        # private methods
+        setState = (_state) ->
+          state = _state
+          console.log state
+
+        # public methods
+        @getState = ->
+          state
+
+        @getSetting = (settingKey) ->
+          @settings[settingKey]
+
+        @getHiddenCssProps = ->
+          # set notification y position
+          position = if (@getSetting 'effect') == 'slide' then (0 - @$element.height()) else 0
 
 
-        # Public methods
-        # Show the notification
-        miniNotification.show = ->
+          # return css properties
+          'position' : 'absolute'
+          'display'  : 'block'
+          'top'      : position unless (@getSetting 'position') == 'bottom'
+          'bottom'   : position if (@getSetting 'position') == 'bottom'
+          'opacity'  : 0 if (@getSetting 'effect') == 'fade'
 
-        # Private methods
-        foo_private_method = ->
+        @getVisibleCssProps = ->
+          # return css properties
+          'opacity'  : 1
+          'top'      : 0 unless (@getSetting 'position') == 'bottom'
+          'bottom'   : 0 if (@getSetting 'position') == 'bottom'
+
+
+        @init = ->
+            setState 'hidden'
+
+            @settings = $.extend {}, @defaults, options
+
+            # Check the existence of the element
+            if @$element.length
+              # set css properties
+              @$element.css @getHiddenCssProps()
+
+              # show notification
+              miniNotification.show() if @settings.show
+
+
+        # Show notification
+        @show = ->
+          setState 'showing'
+
+          @$element.animate(@getVisibleCssProps(), (@getSetting 'showSpeed'), (@getSetting 'showEasing'), ->
+            setState 'visible'
+            setTimeout (-> miniNotification.hide()), miniNotification.settings.time
+          )
+
+        # hide notification
+        @hide = ->
+          setState 'hiding'
+          @$element.animate(@getHiddenCssProps(), (@getSetting 'hideSpeed'), (@getSetting 'hideEasing'), ->
+            setState 'hidden'
+          )
 
 
         # Initialize the notification
