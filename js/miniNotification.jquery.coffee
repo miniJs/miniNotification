@@ -67,7 +67,7 @@ $ ->
           'top'      : 0 unless (@getSetting 'position') is 'bottom'
           'bottom'   : 0 if (@getSetting 'position') is 'bottom'
 
-        wrapElement = =>
+        wrapInnerElement = =>
           @$elementInner = $('<div />', { 'class' : (@getSetting 'innerDivClass') })
           @$element.wrapInner @$elementInner
 
@@ -102,7 +102,7 @@ $ ->
             if @$element.length
 
               # wrap the notification content for easier styling
-              wrapElement()
+              wrapInnerElement()
 
               # add close button
               appendCloseButton() if (@getSetting 'closeButton')

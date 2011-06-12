@@ -2,7 +2,7 @@
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   $(function() {
     $.miniNotification = function(element, options) {
-      var appendCloseButton, getHiddenCssProps, getVisibleCssProps, setState, state, wrapElement;
+      var appendCloseButton, getHiddenCssProps, getVisibleCssProps, setState, state, wrapInnerElement;
       this.defaults = {
         position: 'top',
         show: true,
@@ -48,7 +48,7 @@
           'bottom': (this.getSetting('position')) === 'bottom' ? 0 : void 0
         };
       }, this);
-      wrapElement = __bind(function() {
+      wrapInnerElement = __bind(function() {
         this.$elementInner = $('<div />', {
           'class': this.getSetting('innerDivClass')
         });
@@ -78,7 +78,7 @@
         setState('hidden');
         this.settings = $.extend({}, this.defaults, options);
         if (this.$element.length) {
-          wrapElement();
+          wrapInnerElement();
           if (this.getSetting('closeButton')) {
             appendCloseButton();
           }
