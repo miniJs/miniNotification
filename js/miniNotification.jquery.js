@@ -2,13 +2,13 @@
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   $(function() {
     $.miniNotification = function(element, options) {
-      var getHiddenCssProps, getVisibleCssProps, miniNotification, setState, state;
+      var appendCloseButton, getHiddenCssProps, getVisibleCssProps, setState, state, wrapElement;
       this.defaults = {
         position: 'top',
         show: true,
         effect: 'slide',
         opacity: 0.95,
-        time: 2000,
+        time: 4000,
         showSpeed: 600,
         hideSpeed: 450,
         showEasing: '',
@@ -16,9 +16,13 @@
         onLoad: function() {},
         onVisible: function() {},
         onHide: function() {},
-        onHidden: function() {}
+        onHidden: function() {},
+        closeButton: false,
+        closeButtonText: 'close',
+        closeButtonClass: 'close',
+        hideOnClick: true,
+        innerDivClass: 'inner'
       };
-      miniNotification = this;
       state = '';
       this.settings = {};
       this.$element = $(element);
@@ -44,6 +48,23 @@
           'bottom': (this.getSetting('position')) === 'bottom' ? 0 : void 0
         };
       }, this);
+      wrapElement = __bind(function() {
+        this.$elementInner = $('<div />', {
+          'class': this.getSetting('innerDivClass')
+        });
+        return this.$element.wrapInner(this.$elementInner);
+      }, this);
+      appendCloseButton = __bind(function() {
+        var $closeButton;
+        $closeButton = $('<a />', {
+          'class': this.getSetting('closeButtonClass'),
+          'html': this.getSetting('closeButtonText')
+        });
+        this.$element.children().append($closeButton);
+        return $closeButton.bind('click', __bind(function() {
+          return this.hide();
+        }, this));
+      }, this);
       this.getState = function() {
         return state;
       };
@@ -57,30 +78,45 @@
         setState('hidden');
         this.settings = $.extend({}, this.defaults, options);
         if (this.$element.length) {
+          wrapElement();
+          if (this.getSetting('closeButton')) {
+            appendCloseButton();
+          }
           this.$element.css(getHiddenCssProps());
-          if (this.settings.show) {
-            return this.show();
+          if (this.getSetting('show')) {
+            this.show();
+          }
+          if (this.getSetting('hideOnClick')) {
+            return this.$element.bind('click', __bind(function() {
+              if (this.getState() !== 'hiding') {
+                return this.hide();
+              }
+            }, this));
           }
         }
       };
       this.show = function() {
-        setState('showing');
-        this.callSettingFunction('onLoad');
-        return this.$element.animate(getVisibleCssProps(), this.getSetting('showSpeed'), this.getSetting('showEasing'), __bind(function() {
-          setState('visible');
-          this.callSettingFunction('onVisible');
-          return setTimeout((__bind(function() {
-            return this.hide();
-          }, this)), this.settings.time);
-        }, this));
+        if (this.getState !== 'showing' && this.getStage !== 'visible') {
+          setState('showing');
+          this.callSettingFunction('onLoad');
+          return this.$element.animate(getVisibleCssProps(), this.getSetting('showSpeed'), this.getSetting('showEasing'), __bind(function() {
+            setState('visible');
+            this.callSettingFunction('onVisible');
+            return setTimeout((__bind(function() {
+              return this.hide();
+            }, this)), this.settings.time);
+          }, this));
+        }
       };
       this.hide = function() {
-        setState('hiding');
-        this.callSettingFunction('onHide');
-        return this.$element.animate(getHiddenCssProps(), this.getSetting('hideSpeed'), this.getSetting('hideEasing'), __bind(function() {
-          setState('hidden');
-          return this.callSettingFunction('onHidden');
-        }, this));
+        if (this.getState !== 'hiding' && this.getStage !== 'hidden') {
+          setState('hiding');
+          this.callSettingFunction('onHide');
+          return this.$element.animate(getHiddenCssProps(), this.getSetting('hideSpeed'), this.getSetting('hideEasing'), __bind(function() {
+            setState('hidden');
+            return this.callSettingFunction('onHidden');
+          }, this));
+        }
       };
       return this.init();
     };

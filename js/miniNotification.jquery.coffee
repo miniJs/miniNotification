@@ -4,6 +4,7 @@
 # By: Matthieu Aussaguel, http://www.mynameismatthieu.com
 # Version: 0.1
 # Updated: June 6th, 2011
+#
 
 $ ->
     $.miniNotification = (element, options) ->
@@ -13,7 +14,7 @@ $ ->
             effect           : 'slide'   # notification animation effect 'slide' or 'fade'
             opacity          : 0.95      # number, notification opacity
 
-            time             : 2000      # animation time
+            time             : 4000      # animation time
             showSpeed        : 600       # number, animation showing speed in milliseconds
             hideSpeed        : 450       # number, animation hiding speed in milliseconds
             
@@ -25,13 +26,13 @@ $ ->
             onHide           : ->        # Function, called when notification is hidding
             onHidden         : ->        # Function, called when notification is hidden
 
-            # closeButton      : false     # boolean, generate the hide button
-            # closeButtonText  : 'hide'    # string, hide button text
-            # closeButtonClass : 'hide'    # string, hide button text
-            # hideOnClick      : true      # hide notification when clicked
-        }
+            closeButton      : false      # boolean, generate the close button
+            closeButtonText  : 'close'   # string, close button text
+            closeButtonClass : 'close'   # string, close button text
+            hideOnClick      : true     # close notification when clicked
 
-        miniNotification = this
+            innerDivClass    : 'inner'   # inner wrapper class
+        }
 
         # current state of the notification
         state = ''
@@ -66,6 +67,20 @@ $ ->
           'top'      : 0 unless (@getSetting 'position') is 'bottom'
           'bottom'   : 0 if (@getSetting 'position') is 'bottom'
 
+        wrapElement = =>
+          @$elementInner = $('<div />', { 'class' : (@getSetting 'innerDivClass') })
+          @$element.wrapInner @$elementInner
+
+        appendCloseButton = =>
+          #append close button to the inner element
+          $closeButton = $('<a />', {'class' : (@getSetting 'closeButtonClass'), 'html' : (@getSetting 'closeButtonText')})
+          @$element.children().append $closeButton
+
+          # bind click event
+          $closeButton.bind('click', =>
+            @hide()
+          )
+
         #
         # public methods
         #
@@ -85,32 +100,47 @@ $ ->
 
             # Check the existence of the element
             if @$element.length
+
+              # wrap the notification content for easier styling
+              wrapElement()
+
+              # add close button
+              appendCloseButton() if (@getSetting 'closeButton')
+
               # set css properties
               @$element.css getHiddenCssProps()
 
               # show notification
-              @show() if @settings.show
+              @show() if @getSetting 'show'
+
+              # bind click event
+              if @getSetting 'hideOnClick'
+                @$element.bind('click', =>
+                  if @getState() isnt 'hiding'
+                    @hide()
+                )
 
 
         # Show notification
         @show = ->
-          setState 'showing'
-          @callSettingFunction 'onLoad'
-          @$element.animate(getVisibleCssProps(), (@getSetting 'showSpeed'), (@getSetting 'showEasing'), =>
-            setState 'visible'
-            @callSettingFunction 'onVisible'
-            setTimeout (=> @hide()), @settings.time
-          )
+          if @getState isnt 'showing' and @getStage isnt 'visible'
+            setState 'showing'
+            @callSettingFunction 'onLoad'
+            @$element.animate(getVisibleCssProps(), (@getSetting 'showSpeed'), (@getSetting 'showEasing'), =>
+              setState 'visible'
+              @callSettingFunction 'onVisible'
+              setTimeout (=> @hide()), @settings.time
+            )
 
         # hide notification
         @hide = ->
-          setState 'hiding'
-          @callSettingFunction 'onHide'
-          @$element.animate(getHiddenCssProps(), (@getSetting 'hideSpeed'), (@getSetting 'hideEasing'), =>
-            setState 'hidden'
-            @callSettingFunction 'onHidden'
-          )
-
+          if @getState isnt 'hiding' and @getStage isnt 'hidden'
+            setState 'hiding'
+            @callSettingFunction 'onHide'
+            @$element.animate(getHiddenCssProps(), (@getSetting 'hideSpeed'), (@getSetting 'hideEasing'), =>
+              setState 'hidden'
+              @callSettingFunction 'onHidden'
+            )
 
         # Initialize the notification
         @init()

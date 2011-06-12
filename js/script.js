@@ -1,3 +1,3 @@
 $(function() {
-    $('#mini-notification').miniNotification();
+    $('#mini-notification').miniNotification({closeButton: true, closeButtonText: '[hide]'});
   });
