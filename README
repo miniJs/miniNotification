@@ -1,0 +1,29 @@
+h1. miniNotification jQuery Plugin
+
+miniNotification is very basic but powerful notification jQuery plugin that allows you to fadeIn or slide a notification message at any time.
+
+With miniNotification, you'll be able to display successful or error messages to users in a nice and friendly way (see Demo)
+
+If you have any question of find a bug, feel <a href="https://github.com/MatthieuA/Mini-Notification/issues">hit me up</a> at GitHub or <a href="http://www.twitter.com/matthieu_tweets">shoot me a tweet</a>..
+
+miniNotification is compatible with all modern web browsers including; Internet Explorer 6/7/8/9, Firefox 3+, Chrome, Safari and Mobile Safari.
+
+h2. Info
+
+Developed by "Matthieu Aussaguel":mailto:matthieu,aussaguel@gmail.com, "http://mynameismatthieu.com":http://mynameismatthieu.com
+
+For updates, follow Matthieu on "Twitter":http://twitter.com/matthieu_tweets
+
+h2. Examples and Instructions
+
+Coming soon...
+
+h2. Todo
+
+Documentation
+Demonstration Page
+Testin
+
+h2. Changelog
+* 0.1
+** Initial Release
