@@ -3,17 +3,17 @@ body {
     font-family: 'Helvetica Neue',arial,helvetica,sans-serif;
 }
 
+h1 {
+    color: #333;
+    font-size: 24px;
+    font-weight: 100;
+    border-bottom: 1px solid #CCC;
+}
+
 #main {
     width: 980px;
     margin:  0 auto;
 }
-
-#main h1 {
-    color: #333333;
-    font-size: 24px;
-    font-weight: 100;
-}
-
 
 #mini-notification {
     display: none;
@@ -22,7 +22,7 @@ body {
     background: #fff;
     position: fixed;
     line-height: 22px;
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     border-top: 2px solid #fff;
     z-index:10000;
@@ -38,6 +38,7 @@ body {
     margin:  0 auto;
     padding-right: 60px;
 }
+
 
 #mini-notification .close {
     position: absolute;

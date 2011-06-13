@@ -10,6 +10,9 @@ Developed by "Matthieu Aussaguel":mailto:matthieu,aussaguel@gmail.com, "mynameis
 
 For updates, follow Matthieu on "Twitter":http://twitter.com/matthieu_tweets
 
+h2. To do
+* Ability to delay when the notification pops up
+
 h2. Examples and Instructions
 
 h3. Basic Example
