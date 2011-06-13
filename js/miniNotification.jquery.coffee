@@ -1,8 +1,8 @@
 #
-# Mini Notification, a notification plugin for jQuery
+# miniNotification, a notification plugin for jQuery
 # Instructions: Coming Soon
 # By: Matthieu Aussaguel, http://www.mynameismatthieu.com
-# Version: 0.1
+# Version: 1.0 alpha 1.0
 # Updated: June 6th, 2011
 #
 
@@ -21,17 +21,17 @@ $ ->
             showEasing       : ''        # string, easing equation on load, must load http:#gsgd.co.uk/sandbox/jquery/easing/
             hideEasing       : ''        # string, easing equation on hide, must load http:#gsgd.co.uk/sandbox/jquery/easing/
 
+            innerDivClass    : 'inner'   # inner wrapper class
+
+            closeButton      : false     # boolean, generate the close button
+            closeButtonText  : 'close'   # string, close button text
+            closeButtonClass : 'close'   # string, close button text
+            hideOnClick      : true      # close notification when clicked
+
             onLoad           : ->        # Function, called when the notification is being loaded
             onVisible        : ->        # Function, called when the notification is loaded
             onHide           : ->        # Function, called when notification is hidding
             onHidden         : ->        # Function, called when notification is hidden
-
-            closeButton      : false      # boolean, generate the close button
-            closeButtonText  : 'close'   # string, close button text
-            closeButtonClass : 'close'   # string, close button text
-            hideOnClick      : true     # close notification when clicked
-
-            innerDivClass    : 'inner'   # inner wrapper class
         }
 
         # current state of the notification

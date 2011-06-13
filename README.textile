@@ -1,5 +1,7 @@
 h1. miniNotification jQuery Plugin (__written in CoffeeScript__)
 
+The Notification jQuery Plugin you;ve always been looking for
+
 miniNotification is very basic but powerful notification jQuery plugin that allows you to fadeIn or slide a notification message at any time and it just Works!
 
 If you have any question of find a bug, please raise it <a href="https://github.com/MatthieuA/Mini-Notification/issues">at GitHub</a> or <a href="http://www.twitter.com/matthieu_tweets">on Twitter</a>.
@@ -12,6 +14,8 @@ For updates, follow Matthieu on "Twitter":http://twitter.com/matthieu_tweets
 
 h2. To do
 * Ability to delay when the notification pops up
+* Ability to add custom css
+* Ability to add custom animation properties on show and on hide
 
 h2. Examples and Instructions
 
@@ -27,7 +31,8 @@ h3. Basic Example
 
 note: basic examples included with the source
 
-h3. Website coming soon...
+h3. Website Url
+Coming soon.
 
 h2. Browsers supported
 * Internet Explorer 6+

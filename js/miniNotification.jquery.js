@@ -13,15 +13,15 @@
         hideSpeed: 450,
         showEasing: '',
         hideEasing: '',
-        onLoad: function() {},
-        onVisible: function() {},
-        onHide: function() {},
-        onHidden: function() {},
+        innerDivClass: 'inner',
         closeButton: false,
         closeButtonText: 'close',
         closeButtonClass: 'close',
         hideOnClick: true,
-        innerDivClass: 'inner'
+        onLoad: function() {},
+        onVisible: function() {},
+        onHide: function() {},
+        onHidden: function() {}
       };
       state = '';
       this.settings = {};
