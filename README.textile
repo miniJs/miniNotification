@@ -18,9 +18,10 @@ h3. Basic Example
 
 
 * HTML
-<div id="mini-notification">
+
+@<div id="mini-notification">
        <p>The mini notification has been successfully displayed</p>
-</div>
+</div>@
 
 * Javascript
 $('div#notification').miniNotification();
