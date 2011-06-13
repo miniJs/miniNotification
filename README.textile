@@ -4,7 +4,7 @@ miniNotification is very basic but powerful notification jQuery plugin that allo
 
 With miniNotification, you'll be able to display successful or error messages to users in a nice and friendly way (see Demo)
 
-If you have any question of find a bug, <a href="https://github.com/MatthieuA/Mini-Notification/issues"> just raise it</a> at GitHub or on Twitter <a href="http://www.twitter.com/matthieu_tweets">shoot me a tweet</a>..
+If you have any question of find a bug, please raise it <a href="https://github.com/MatthieuA/Mini-Notification/issues">at GitHub</a> or <a href="http://www.twitter.com/matthieu_tweets">on Twitter</a>.
 
 h2. Info
 
@@ -14,10 +14,19 @@ For updates, follow Matthieu on "Twitter":http://twitter.com/matthieu_tweets
 
 h2. Examples and Instructions
 
-h3. Usage Example
+h3. Basic Example
 
+
+* HTML
+<div id="mini-notification">
+       <p>The mini notification has been successfully displayed</p>
+</div>
+
+* Javascript
 $('div#notification').miniNotification();
-note: basic exmaples included with the source
+
+note: basic examples included with the source
+
 
 h3. Website coming soon...
 
