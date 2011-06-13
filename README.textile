@@ -1,6 +1,4 @@
-h1. miniNotification
-
-*jQuery Plugin (__written in CoffeeScript__)*
+h1. miniNotification jQuery Plugin (__written in CoffeeScript__)
 
 miniNotification is very basic but powerful notification jQuery plugin that allows you to fadeIn or slide a notification message at any time and it just Works!
 
