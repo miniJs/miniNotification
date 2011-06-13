@@ -1,8 +1,6 @@
 miniNotification jQuery Plugin (written in CoffeeScript)
 
-miniNotification is very basic but powerful notification jQuery plugin that allows you to fadeIn or slide a notification message at any time.
-
-With miniNotification, you'll be able to display successful or error messages to users in a nice and friendly way (see Demo)
+miniNotification is very basic but powerful notification jQuery plugin that allows you to fadeIn or slide a notification message at any time and it just Works!
 
 If you have any question of find a bug, please raise it <a href="https://github.com/MatthieuA/Mini-Notification/issues">at GitHub</a> or <a href="http://www.twitter.com/matthieu_tweets">on Twitter</a>.
 
