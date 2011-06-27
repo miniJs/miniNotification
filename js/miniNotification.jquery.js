@@ -72,7 +72,7 @@
         return this.settings[settingKey];
       };
       this.callSettingFunction = function(functionName) {
-        return this.settings[functionName]();
+        return this.settings[functionName](element);
       };
       this.init = function() {
         setState('hidden');

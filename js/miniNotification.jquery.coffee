@@ -28,10 +28,10 @@ $ ->
             closeButtonClass : 'close'   # string, close button text
             hideOnClick      : true      # close notification when clicked
 
-            onLoad           : ->        # Function, called when the notification is being loaded
-            onVisible        : ->        # Function, called when the notification is loaded
-            onHide           : ->        # Function, called when notification is hidding
-            onHidden         : ->        # Function, called when notification is hidden
+            onLoad           : ->        # Function(notification), called when the notification is being loaded
+            onVisible        : ->        # Function(notification), called when the notification is loaded
+            onHide           : ->        # Function(notification), called when notification is hiding
+            onHidden         : ->        # Function(notification), called when notification is hidden
         }
 
         # current state of the notification
@@ -91,7 +91,7 @@ $ ->
           @settings[settingKey]
 
         @callSettingFunction = (functionName) ->
-          @settings[functionName]()
+          @settings[functionName](element)
 
         @init = ->
             setState 'hidden'

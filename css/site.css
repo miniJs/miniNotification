@@ -1,20 +1,26 @@
 /* miniNotification jQuery plugin */
 body {
-    font-family: 'Helvetica Neue',arial,helvetica,sans-serif;
+    font-family: helvetica,'Georgia',arial,sans-serif;
+    background-color: #fafbf1;
+    color: #3C3C3C;
 }
 
 h1 {
-    color: #333;
     font-size: 24px;
-    line-height: 35px;
+    line-height: 48px;
     font-weight: 100;
     letter-spacing: 1px;
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid #3C3C3C;
+}
+
+h1 strong {
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 #main {
     width: 980px;
-    margin:  0 auto;
+    margin:  50px auto;
 }
 
 #mini-notification {
@@ -23,12 +29,11 @@ h1 {
     width: 100%;
     background: #fff;
     position: fixed;
-    line-height: 22px;
     font-size: 14px;
     text-align: center;
     border-top: 2px solid #fff;
-    z-index:10000;
-    color: #7A7472;
+    z-index:9999;
+    color: #3C3C3C;
     -moz-box-shadow:0 0em 0.5em rgba(0, 0, 0, 0.3);
     -webkit-box-shadow:0 0em 0.5em rgba(0, 0, 0, 0.3);
     box-shadow:0 0em 0.5em rgba(0, 0, 0, 0.3);
