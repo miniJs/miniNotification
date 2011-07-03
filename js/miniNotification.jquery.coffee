@@ -52,20 +52,27 @@ $ ->
         getHiddenCssProps = =>
           # set notification y position
           position = if (@getSetting 'effect') == 'slide' then (0 - @$element.outerHeight()) else 0
+          css = {}
 
-          # return css properties object
-          'position' : 'fixed'
-          'display'  : 'block'
-          'z-index'  : 9999999
-          'top'      : position unless (@getSetting 'position') is 'bottom'
-          'bottom'   : position if (@getSetting 'position') is 'bottom'
-          'opacity'  : 0 if (@getSetting 'effect') is 'fade'
+          if (@getSetting 'position') is 'bottom'
+            css['bottom'] = position
+          else
+            css['top'] = position
+          if (@getSetting 'effect') is 'fade'
+            css['opacity'] = 0
+          css
 
         getVisibleCssProps = =>
           # return css properties object
-          'opacity'  : (@getSetting 'opacity')
-          'top'      : 0 unless (@getSetting 'position') is 'bottom'
-          'bottom'   : 0 if (@getSetting 'position') is 'bottom'
+          css = {
+            'opacity'  : (@getSetting 'opacity')
+          }
+          if (@getSetting 'position') is 'bottom'
+            css['bottom'] = 0
+          else
+            css['top'] = 0
+          css
+          
 
         wrapInnerElement = =>
           @$elementInner = $('<div />', { 'class' : (@getSetting 'innerDivClass') })
@@ -108,7 +115,8 @@ $ ->
               appendCloseButton() if (@getSetting 'closeButton')
 
               # set css properties
-              @$element.css getHiddenCssProps()
+              @$element.css(getHiddenCssProps())
+                       .css({ display : 'inline' })
 
               # show notification
               @show() if @getSetting 'show'
@@ -123,7 +131,7 @@ $ ->
 
         # Show notification
         @show = ->
-          if @getState isnt 'showing' and @getStage isnt 'visible'
+          if @getState() isnt 'showing' and @getState() isnt 'visible'
             setState 'showing'
             @callSettingFunction 'onLoad'
             @$element.animate(getVisibleCssProps(), (@getSetting 'showSpeed'), (@getSetting 'showEasing'), =>
@@ -134,9 +142,10 @@ $ ->
 
         # hide notification
         @hide = ->
-          if @getState isnt 'hiding' and @getStage isnt 'hidden'
+          if @getState() isnt 'hiding' and @getState() isnt 'hidden'
             setState 'hiding'
             @callSettingFunction 'onHide'
+            console.log getHiddenCssProps()
             @$element.animate(getHiddenCssProps(), (@getSetting 'hideSpeed'), (@getSetting 'hideEasing'), =>
               setState 'hidden'
               @callSettingFunction 'onHidden'

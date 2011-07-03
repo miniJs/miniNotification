@@ -30,23 +30,30 @@
         return state = _state;
       };
       getHiddenCssProps = __bind(function() {
-        var position;
+        var css, position;
         position = (this.getSetting('effect')) === 'slide' ? 0 - this.$element.outerHeight() : 0;
-        return {
-          'position': 'fixed',
-          'display': 'block',
-          'z-index': 9999999,
-          'top': (this.getSetting('position')) !== 'bottom' ? position : void 0,
-          'bottom': (this.getSetting('position')) === 'bottom' ? position : void 0,
-          'opacity': (this.getSetting('effect')) === 'fade' ? 0 : void 0
-        };
+        css = {};
+        if ((this.getSetting('position')) === 'bottom') {
+          css['bottom'] = position;
+        } else {
+          css['top'] = position;
+        }
+        if ((this.getSetting('effect')) === 'fade') {
+          css['opacity'] = 0;
+        }
+        return css;
       }, this);
       getVisibleCssProps = __bind(function() {
-        return {
-          'opacity': this.getSetting('opacity'),
-          'top': (this.getSetting('position')) !== 'bottom' ? 0 : void 0,
-          'bottom': (this.getSetting('position')) === 'bottom' ? 0 : void 0
+        var css;
+        css = {
+          'opacity': this.getSetting('opacity')
         };
+        if ((this.getSetting('position')) === 'bottom') {
+          css['bottom'] = 0;
+        } else {
+          css['top'] = 0;
+        }
+        return css;
       }, this);
       wrapInnerElement = __bind(function() {
         this.$elementInner = $('<div />', {
@@ -82,7 +89,9 @@
           if (this.getSetting('closeButton')) {
             appendCloseButton();
           }
-          this.$element.css(getHiddenCssProps());
+          this.$element.css(getHiddenCssProps()).css({
+            display: 'inline'
+          });
           if (this.getSetting('show')) {
             this.show();
           }
@@ -96,7 +105,7 @@
         }
       };
       this.show = function() {
-        if (this.getState !== 'showing' && this.getStage !== 'visible') {
+        if (this.getState() !== 'showing' && this.getState() !== 'visible') {
           setState('showing');
           this.callSettingFunction('onLoad');
           return this.$element.animate(getVisibleCssProps(), this.getSetting('showSpeed'), this.getSetting('showEasing'), __bind(function() {
@@ -109,9 +118,10 @@
         }
       };
       this.hide = function() {
-        if (this.getState !== 'hiding' && this.getStage !== 'hidden') {
+        if (this.getState() !== 'hiding' && this.getState() !== 'hidden') {
           setState('hiding');
           this.callSettingFunction('onHide');
+          console.log(getHiddenCssProps());
           return this.$element.animate(getHiddenCssProps(), this.getSetting('hideSpeed'), this.getSetting('hideEasing'), __bind(function() {
             setState('hidden');
             return this.callSettingFunction('onHidden');
