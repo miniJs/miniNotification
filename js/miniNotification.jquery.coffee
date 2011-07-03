@@ -1,7 +1,7 @@
 #
 # miniNotification, a notification plugin for jQuery
 # Instructions: Coming Soon
-# By: Matthieu Aussaguel, http://www.mynameismatthieu.com
+# By: Matthieu Aussaguel, http://www.mynameismatthieu.com, @matthieu_tweets
 # Version: 1.0 alpha 1.0
 # Updated: June 6th, 2011
 #
