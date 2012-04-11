@@ -131,6 +131,7 @@ $ ->
 
         # Show notification
         @show = ->
+          console.log 'test'
           if @getState() isnt 'showing' and @getState() isnt 'visible'
             setState 'showing'
             @callSettingFunction 'onLoad'
@@ -145,7 +146,6 @@ $ ->
           if @getState() isnt 'hiding' and @getState() isnt 'hidden'
             setState 'hiding'
             @callSettingFunction 'onHide'
-            console.log getHiddenCssProps()
             @$element.animate(getHiddenCssProps(), (@getSetting 'hideSpeed'), (@getSetting 'hideEasing'), =>
               setState 'hidden'
               @callSettingFunction 'onHidden'
@@ -154,9 +154,14 @@ $ ->
         # Initialize the notification
         @init()
 
+        this
+
     $.fn.miniNotification = (options) ->
         return this.each ->
             # Make sure miniNotification hasn't been already attached to the element
-            if undefined == ($ this).data('miniNotification')
-                miniNotification = new $.miniNotification this, options
-                ($ this).data 'miniNotification', miniNotification
+            miniNotificationData = ($ this).data('miniNotification')
+            if undefined == miniNotificationData
+                miniNotificationData = new $.miniNotification this, options
+                ($ this).data 'miniNotification', miniNotificationData
+            else
+                ($ this).data('miniNotification').show()
