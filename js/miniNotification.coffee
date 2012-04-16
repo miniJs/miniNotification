@@ -1,9 +1,10 @@
 #
 # miniNotification, a notification plugin for jQuery
-# Instructions: Coming Soon
+# Instructions: http://minijs.com/plugins/8/notification
 # By: Matthieu Aussaguel, http://www.mynameismatthieu.com, @mattaussaguel
-# Version: 1.0 alpha 1.0
-# Updated: June 6th, 2011
+# Version: 1.0 Stable
+# Updated: April 16, 2012
+# More info: http://minijs.com/
 #
 
 $ ->
