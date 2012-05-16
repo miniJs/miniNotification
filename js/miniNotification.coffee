@@ -132,7 +132,6 @@ $ ->
 
         # Show notification
         @show = ->
-          console.log 'test'
           if @getState() isnt 'showing' and @getState() isnt 'visible'
             setState 'showing'
             @callSettingFunction 'onLoad'

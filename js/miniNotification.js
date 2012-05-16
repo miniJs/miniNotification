@@ -109,7 +109,6 @@
       };
       this.show = function() {
         var _this = this;
-        console.log('test');
         if (this.getState() !== 'showing' && this.getState() !== 'visible') {
           setState('showing');
           this.callSettingFunction('onLoad');
