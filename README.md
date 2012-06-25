@@ -1,40 +1,49 @@
-miniNotification jQuery plugin
-==============================
+# [miniNotification jQuery plugin](http://minijs.com/plugins/8/notification) [![Build Status](https://secure.travis-ci.org/miniJs/miniNotification.png?branch=master)](http://travis-ci.org/matthieua/miniNotification)
 
 miniNotification is very basic but powerful notification jQuery plugin that allows you to fadeIn or slide a notification message at any time and it just Works!
 
-### Version
------------
+## Version
 
 1.0 Stable
 
-### Website Url
----------------
+## Website Url
 
 http://minijs.com/plugins/8/notification
 
-### Bug tracker
----------------
+## Bug tracker
 
 If you find a bug, please raise it the issue here on Github! 
 
 https://github.com/miniJs/miniNotification/issues
 
-### Developer
--------------
+## Tests with Jasmine
+
+The boilerplate also encourages you to write tests for your plugin with [Jasmine](http://pivotal.github.com/jasmine/).
+
+To be able to run the test suite, you'll need to install the Jasmine gem. If you have bundler installed just follow these instructions:
+
+- run `bundle install`
+- run `rake jasmine` and go to 'http://localhost:8888/'
+
+### Using Guard Jasmine
+
+Guard automatically tests your Jasmine specs when files are modified which will significantly increase your productivity.
+
+- intall [phantomjs](http://phantomjs.org/) or just run `brew install phantomjs`
+- run `guard` from the plugin directory
+
+## Developer
 
 Developed by <a href="mailto:matthieu.aussaguel@gmail">Matthieu Aussaguel</a>, <a href="http://mynameismatthieu.com">mynameismatthieu.com</a>
 
 + http://twitter.com/mattaussaguel
 + http://github.com/matthieua
 
-### To Do
----------
+## To Do
 
 * Add test coverage using jasmine.js
 
-### Licence
------------
+## Licence
 
 Copyright &copy; 2012 Matthieu Aussaguel
 
