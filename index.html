@@ -1,35 +1,35 @@
 <!doctype html>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>miniNotification - jQuery Plugin</title>
-  <link rel="stylesheet" href="css/site.css">
-  <!--[if IE]>
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-</head>
+  <head>
+    <meta charset="utf-8">
+    <title>miniNotification - jQuery Plugin</title>
+    <link rel="stylesheet" href="css/site.css">
+    <!--[if IE]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
 
-<body>
+  <body>
 
-<div id="container">
-  <header>
-    <div id="mini-notification">
-        <p>The notification has been successfully displayed</p>
+    <div id="container">
+      <header>
+        <div id="mini-notification">
+            <p>The notification has been successfully displayed</p>
+        </div>
+      </header>
+      <div id="main">
+        <h1><strong>miniNotification demo</strong> - jQuery Plugin</h1>
+      </div>
     </div>
-  </header>
-  <div id="main">
-    <h1><strong>miniNotification demo</strong> - jQuery Plugin</h1>
-  </div>
-</div>
-<!-- end of #container -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-<script src="js/miniNotification.js"></script>
-<script>
-  $(function() {
-    $('#mini-notification').miniNotification({closeButton: true, closeButtonText: '[hide]'});
-  });
-</script>
+    <!-- end of #container -->
+    <script src="js/libs/jquery.min.js"></script>
+    <script src="js/miniNotification.js"></script>
+    <script>
+      $(function() {
+        $('#mini-notification').miniNotification({closeButton: true, closeButtonText: '[hide]'});
+      });
+    </script>
 
-</body>
+  </body>
 </html>
