@@ -159,9 +159,9 @@ $ ->
     $.fn.miniNotification = (options) ->
         return this.each ->
             # Make sure miniNotification hasn't been already attached to the element
-            miniNotificationData = ($ this).data('miniNotification')
-            if undefined == miniNotificationData
-                miniNotificationData = new $.miniNotification this, options
-                ($ this).data 'miniNotification', miniNotificationData
+            plugin = ($ this).data('miniNotification')
+            if plugin == undefined
+                plugin = new $.miniNotification this, options
+                ($ this).data 'miniNotification', plugin
             else
-                ($ this).data('miniNotification').show()
+                plugin.show()
