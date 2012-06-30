@@ -57,11 +57,12 @@ describe 'miniNotification', ->
 
     it 'should not add a close button by default', ->
       plugin = new $.miniNotification(@$element)
+
       $innerElement = plugin.$element.children().first()
       expect($innerElement.hasClass(plugin.settings.innerDivClass)).toBeTruthy() 
 
 
-  describe 'show', ->
+  describe '#show', ->
     spyOnShowAnimatewWithOptions = (options = {}) -> 
       options = $.extend {show: false}, options
       plugin = new $.miniNotification(@$element, options)
@@ -103,7 +104,21 @@ describe 'miniNotification', ->
         
         expect(plugin.$element.animate).toHaveBeenCalledWith(jasmine.any(Object), jasmine.any(Number), 'swing',  jasmine.any(Function))
 
-  describe 'show', ->
+    describe 'time', ->
+      it 'should show the notification for how long the time is set in the defaults', ->
+        spyOn(window, 'setTimeout')
+        plugin = new $.miniNotification(@$element, {showSpeed: 0})
+
+        expect(window.setTimeout).toHaveBeenCalledWith(jasmine.any(Function), plugin.defaults.time)
+
+      it 'should show the notification for how long the time is manually set', ->
+        spyOn(window, 'setTimeout')
+        new $.miniNotification(@$element, {showSpeed: 0, time: 1000})
+
+        expect(window.setTimeout).toHaveBeenCalledWith(jasmine.any(Function), 1000)
+
+
+  describe '#show', ->
     spyOnHideAnimatewWithOptions = (options = {}) -> 
       plugin = new $.miniNotification(@$element, options, {show: false})
       spyOn(plugin.$element, 'animate')
@@ -114,7 +129,6 @@ describe 'miniNotification', ->
     describe 'speed', ->
       it 'should animate the element notification with default show speed', ->
         plugin = spyOnHideAnimatewWithOptions()
-
         expect(plugin.$element.animate).toHaveBeenCalledWith(jasmine.any(Object), plugin.settings.hideSpeed, jasmine.any(String),  jasmine.any(Function))
 
       it 'should animate the element notification with specified hideSpeed speed', ->

@@ -66,7 +66,7 @@
         return expect($innerElement.hasClass(plugin.settings.innerDivClass)).toBeTruthy();
       });
     });
-    describe('show', function() {
+    describe('#show', function() {
       var spyOnShowAnimatewWithOptions;
       spyOnShowAnimatewWithOptions = function(options) {
         var plugin;
@@ -115,7 +115,7 @@
           return expect(plugin.$element.animate).toHaveBeenCalledWith(jasmine.any(Object), 2000, jasmine.any(String), jasmine.any(Function));
         });
       });
-      return describe('easing', function() {
+      describe('easing', function() {
         it('should animate the element notification with no easing equation by default', function() {
           var plugin;
           plugin = spyOnShowAnimatewWithOptions();
@@ -129,8 +129,26 @@
           return expect(plugin.$element.animate).toHaveBeenCalledWith(jasmine.any(Object), jasmine.any(Number), 'swing', jasmine.any(Function));
         });
       });
+      return describe('time', function() {
+        it('should show the notification for how long the time is set in the defaults', function() {
+          var plugin;
+          spyOn(window, 'setTimeout');
+          plugin = new $.miniNotification(this.$element, {
+            showSpeed: 0
+          });
+          return expect(window.setTimeout).toHaveBeenCalledWith(jasmine.any(Function), plugin.defaults.time);
+        });
+        return it('should show the notification for how long the time is manually set', function() {
+          spyOn(window, 'setTimeout');
+          new $.miniNotification(this.$element, {
+            showSpeed: 0,
+            time: 1000
+          });
+          return expect(window.setTimeout).toHaveBeenCalledWith(jasmine.any(Function), 1000);
+        });
+      });
     });
-    return describe('show', function() {
+    return describe('#show', function() {
       var spyOnHideAnimatewWithOptions;
       spyOnHideAnimatewWithOptions = function(options) {
         var plugin;
