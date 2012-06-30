@@ -178,7 +178,7 @@
           plugin = new $.miniNotification(this.$element);
           return expect(plugin.$element.find('a.close')).not.toExist();
         });
-        return describe('set to true', function() {
+        describe('set to true', function() {
           describe('with default options', function() {
             beforeEach(function() {
               return this.plugin = new $.miniNotification(this.$element, {
@@ -217,6 +217,64 @@
               this.plugin.$element.click();
               return expect(this.plugin.hide).not.toHaveBeenCalled();
             });
+          });
+        });
+        return describe('callbacks', function() {
+          beforeEach(function() {
+            return this.foo = jasmine.createSpy('foo');
+          });
+          it('should call onLoad callback function when the plugin has beein initialiazed', function() {
+            var plugin;
+            plugin = new $.miniNotification(this.$element, {
+              onLoad: this.foo,
+              show: false
+            });
+            expect(this.foo).not.toHaveBeenCalled();
+            plugin.show();
+            expect(this.foo).toHaveBeenCalled();
+            return expect(this.foo.mostRecentCall.args[0]).toBe(this.$element);
+          });
+          it('should call onLoad callback function when the plugin has beein initialiazed', function() {
+            var plugin;
+            plugin = new $.miniNotification(this.$element, {
+              onVisible: this.foo,
+              show: false,
+              showSpeed: 0
+            });
+            expect(this.foo).not.toHaveBeenCalled();
+            plugin.show();
+            expect(this.foo).toHaveBeenCalled();
+            return expect(this.foo.mostRecentCall.args[0]).toBe(this.$element);
+          });
+          it('should call onLoad callback function when the plugin has beein initialiazed', function() {
+            var plugin;
+            plugin = new $.miniNotification(this.$element, {
+              onHide: this.foo,
+              show: false,
+              showSpeed: 0
+            });
+            expect(this.foo).not.toHaveBeenCalled();
+            plugin.show();
+            expect(this.foo).not.toHaveBeenCalled();
+            plugin.hide();
+            expect(this.foo).toHaveBeenCalled();
+            return expect(this.foo.mostRecentCall.args[0]).toBe(this.$element);
+          });
+          return it('should call onLoad callback function when the plugin has beein initialiazed', function() {
+            var plugin;
+            plugin = new $.miniNotification(this.$element, {
+              onHidden: this.foo,
+              show: false,
+              showSpeed: 0,
+              hideSpeed: 0
+            });
+            expect(this.foo).not.toHaveBeenCalled();
+            expect(this.foo).not.toHaveBeenCalled();
+            plugin.show();
+            expect(this.foo).not.toHaveBeenCalled();
+            plugin.hide();
+            expect(this.foo).toHaveBeenCalled();
+            return expect(this.foo.mostRecentCall.args[0]).toBe(this.$element);
           });
         });
       });

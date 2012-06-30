@@ -165,6 +165,50 @@ describe 'miniNotification', ->
             @plugin.$element.click()            
             expect(@plugin.hide).not.toHaveBeenCalled()
 
+      describe 'callbacks', ->
+        beforeEach ->
+          @foo = jasmine.createSpy('foo')
+
+        it 'should call onLoad callback function when the plugin has beein initialiazed', ->
+            plugin = new $.miniNotification(@$element, {onLoad: @foo, show: false})
+            expect(@foo).not.toHaveBeenCalled()
+
+            plugin.show()
+            expect(@foo).toHaveBeenCalled()
+            expect(@foo.mostRecentCall.args[0]).toBe @$element
+
+        it 'should call onLoad callback function when the plugin has beein initialiazed', ->
+            plugin = new $.miniNotification(@$element, {onVisible: @foo, show: false, showSpeed: 0})
+            expect(@foo).not.toHaveBeenCalled()
+
+            plugin.show()
+            expect(@foo).toHaveBeenCalled()
+            expect(@foo.mostRecentCall.args[0]).toBe @$element
+
+
+        it 'should call onLoad callback function when the plugin has beein initialiazed', ->
+            plugin = new $.miniNotification(@$element, {onHide: @foo, show: false, showSpeed: 0})
+
+            expect(@foo).not.toHaveBeenCalled()
+            plugin.show()
+            expect(@foo).not.toHaveBeenCalled()
+            plugin.hide()
+            expect(@foo).toHaveBeenCalled()
+            expect(@foo.mostRecentCall.args[0]).toBe @$element
+
+        it 'should call onLoad callback function when the plugin has beein initialiazed', ->
+            plugin = new $.miniNotification(@$element, {onHidden: @foo, show: false, showSpeed: 0, hideSpeed: 0})
+            expect(@foo).not.toHaveBeenCalled()
+
+            expect(@foo).not.toHaveBeenCalled()
+            plugin.show()
+            expect(@foo).not.toHaveBeenCalled()
+            plugin.hide()
+            expect(@foo).toHaveBeenCalled()
+            expect(@foo.mostRecentCall.args[0]).toBe @$element
+
+
+
 
         
       
