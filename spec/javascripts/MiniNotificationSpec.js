@@ -1,13 +1,14 @@
 (function() {
 
   describe('miniNotification', function() {
-    var options;
+    var fixtures, options;
     options = {
       position: 'bottom',
       show: false
     };
+    fixtures = "<div id='fixtures'>                <div id='notification'>                  <p>The notification has been successfully displayed</p>                </div>              </div>";
     beforeEach(function() {
-      loadFixtures('fragment.html');
+      setFixtures(fixtures);
       return this.$element = $('#fixtures #notification');
     });
     it('should be available on the jQuery object', function() {
@@ -268,7 +269,6 @@
               showSpeed: 0,
               hideSpeed: 0
             });
-            expect(this.foo).not.toHaveBeenCalled();
             expect(this.foo).not.toHaveBeenCalled();
             plugin.show();
             expect(this.foo).not.toHaveBeenCalled();

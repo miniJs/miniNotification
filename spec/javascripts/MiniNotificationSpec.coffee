@@ -2,10 +2,15 @@ describe 'miniNotification', ->
   options =
     position: 'bottom'
     show: false
+  fixtures = "<div id='fixtures'>
+                <div id='notification'>
+                  <p>The notification has been successfully displayed</p>
+                </div>
+              </div>"
 
 
   beforeEach ->
-    loadFixtures 'fragment.html'
+    setFixtures fixtures
     @$element = $('#fixtures #notification')
 
   it 'should be available on the jQuery object', ->
@@ -198,7 +203,6 @@ describe 'miniNotification', ->
 
         it 'should call onLoad callback function when the plugin has beein initialiazed', ->
             plugin = new $.miniNotification(@$element, {onHidden: @foo, show: false, showSpeed: 0, hideSpeed: 0})
-            expect(@foo).not.toHaveBeenCalled()
 
             expect(@foo).not.toHaveBeenCalled()
             plugin.show()
