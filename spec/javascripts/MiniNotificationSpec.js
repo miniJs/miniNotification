@@ -27,7 +27,45 @@
       expect(plugin.settings.position).toBe(options.position);
       return expect(plugin.settings.show).toBe(options.show);
     });
-    return describe('show', function() {
+    describe('init', function() {
+      it('should wrap the inner element in the div with initDivClass', function() {
+        var $innerElement, plugin;
+        plugin = new $.miniNotification(this.$element);
+        $innerElement = plugin.$element.children().first();
+        return expect($innerElement.hasClass(plugin.settings.innerDivClass)).toBeTruthy();
+      });
+      it('should show the notification by default', function() {
+        var plugin;
+        plugin = new $.miniNotification(this.$element);
+        spyOn(plugin, 'show');
+        plugin.init();
+        return expect(plugin.show).toHaveBeenCalled();
+      });
+      it('should not show the notification if show is false', function() {
+        var plugin;
+        plugin = new $.miniNotification(this.$element, {
+          show: false
+        });
+        spyOn(plugin, 'show');
+        plugin.init();
+        return expect(plugin.show).not.toHaveBeenCalled();
+      });
+      it('should add a close button if specified', function() {
+        var $innerElement, plugin;
+        plugin = new $.miniNotification(this.$element, {
+          closeButton: true
+        });
+        $innerElement = plugin.$element.children().first();
+        return expect($innerElement.hasClass(plugin.settings.innerDivClass)).toBeTruthy();
+      });
+      return it('should not add a close button by default', function() {
+        var $innerElement, plugin;
+        plugin = new $.miniNotification(this.$element);
+        $innerElement = plugin.$element.children().first();
+        return expect($innerElement.hasClass(plugin.settings.innerDivClass)).toBeTruthy();
+      });
+    });
+    describe('show', function() {
       var spyOnShowAnimatewWithOptions;
       spyOnShowAnimatewWithOptions = function(options) {
         var plugin;
@@ -42,46 +80,6 @@
         plugin.show();
         return plugin;
       };
-      describe('position', function() {
-        it('should position the notification at the top of the page by default', function() {
-          var plugin;
-          plugin = spyOnShowAnimatewWithOptions();
-          return expect(plugin.$element.animate).toHaveBeenCalledWith({
-            top: 0,
-            opacity: plugin.settings.opacity
-          }, jasmine.any(Number), jasmine.any(String), jasmine.any(Function));
-        });
-        it('should position the notification at the bottom of the page if specified in the options', function() {
-          var plugin;
-          plugin = spyOnShowAnimatewWithOptions({
-            position: 'bottom'
-          });
-          return expect(plugin.$element.animate).toHaveBeenCalledWith({
-            bottom: 0,
-            opacity: plugin.settings.opacity
-          }, jasmine.any(Number), jasmine.any(String), jasmine.any(Function));
-        });
-        it('should position the notification at the top of the page if specified in the options', function() {
-          var plugin;
-          plugin = spyOnShowAnimatewWithOptions({
-            position: 'top'
-          });
-          return expect(plugin.$element.animate).toHaveBeenCalledWith({
-            top: 0,
-            opacity: jasmine.any(Number)
-          }, jasmine.any(Number), jasmine.any(String), jasmine.any(Function));
-        });
-        return it('should position the notification at the top of the page if option is invalid', function() {
-          var plugin;
-          plugin = spyOnShowAnimatewWithOptions({
-            position: 'invalid'
-          });
-          return expect(plugin.$element.animate).toHaveBeenCalledWith({
-            top: 0,
-            opacity: jasmine.any(Number)
-          }, jasmine.any(Number), jasmine.any(String), jasmine.any(Function));
-        });
-      });
       describe('opacity', function() {
         it('should animate the element to the default opacity if not specified', function() {
           var plugin;
@@ -128,6 +126,98 @@
             showEasing: 'swing'
           });
           return expect(plugin.$element.animate).toHaveBeenCalledWith(jasmine.any(Object), jasmine.any(Number), 'swing', jasmine.any(Function));
+        });
+      });
+    });
+    return describe('show', function() {
+      var spyOnHideAnimatewWithOptions;
+      spyOnHideAnimatewWithOptions = function(options) {
+        var plugin;
+        if (options == null) {
+          options = {};
+        }
+        plugin = new $.miniNotification(this.$element, options, {
+          show: false
+        });
+        spyOn(plugin.$element, 'animate');
+        spyOn(plugin, 'getState').andReturn('visible');
+        plugin.hide();
+        return plugin;
+      };
+      describe('speed', function() {
+        it('should animate the element notification with default show speed', function() {
+          var plugin;
+          plugin = spyOnHideAnimatewWithOptions();
+          return expect(plugin.$element.animate).toHaveBeenCalledWith(jasmine.any(Object), plugin.settings.hideSpeed, jasmine.any(String), jasmine.any(Function));
+        });
+        return it('should animate the element notification with specified hideSpeed speed', function() {
+          var plugin;
+          plugin = spyOnHideAnimatewWithOptions({
+            hideSpeed: 2000
+          });
+          return expect(plugin.$element.animate).toHaveBeenCalledWith(jasmine.any(Object), 2000, jasmine.any(String), jasmine.any(Function));
+        });
+      });
+      describe('easing', function() {
+        it('should animate the element notification with no easing equation by default', function() {
+          var plugin;
+          plugin = spyOnHideAnimatewWithOptions();
+          return expect(plugin.$element.animate).toHaveBeenCalledWith(jasmine.any(Object), jasmine.any(Number), '', jasmine.any(Function));
+        });
+        return it('should animate the element notification with specified easing equation', function() {
+          var plugin;
+          plugin = spyOnHideAnimatewWithOptions({
+            hideEasing: 'swing'
+          });
+          return expect(plugin.$element.animate).toHaveBeenCalledWith(jasmine.any(Object), jasmine.any(Number), 'swing', jasmine.any(Function));
+        });
+      });
+      return describe('close button', function() {
+        it('should not append a close button by default', function() {
+          var plugin;
+          plugin = new $.miniNotification(this.$element);
+          return expect(plugin.$element.find('a.close')).not.toExist();
+        });
+        return describe('set to true', function() {
+          describe('with default options', function() {
+            beforeEach(function() {
+              return this.plugin = new $.miniNotification(this.$element, {
+                closeButton: true
+              });
+            });
+            it("should append a close button with css class 'close'", function() {
+              return expect(this.plugin.$element.find('a.close')).toExist();
+            });
+            it("should append a close button with content 'close'", function() {
+              return expect(this.plugin.$element.find('a.close')).toHaveHtml(this.plugin.settings.closeButtonText);
+            });
+            return it("should hide the notification on click", function() {
+              spyOn(this.plugin, 'hide');
+              this.plugin.$element.click();
+              return expect(this.plugin.hide).toHaveBeenCalled();
+            });
+          });
+          return describe('with custom options', function() {
+            beforeEach(function() {
+              return this.plugin = new $.miniNotification(this.$element, {
+                closeButton: true,
+                closeButtonClass: 'custom-css-class',
+                closeButtonText: 'custom text',
+                hideOnClick: false
+              });
+            });
+            it('should append a close button witch custom css class', function() {
+              return expect(this.plugin.$element.find('a.custom-css-class')).toExist();
+            });
+            it("should append a close button with custom text", function() {
+              return expect(this.plugin.$element.find('a.custom-css-class')).toHaveHtml('custom text');
+            });
+            return it("should not hide the notification on click", function() {
+              spyOn(this.plugin, 'hide');
+              this.plugin.$element.click();
+              return expect(this.plugin.hide).not.toHaveBeenCalled();
+            });
+          });
         });
       });
     });
