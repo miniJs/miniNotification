@@ -39,10 +39,6 @@ Developed by <a href="mailto:matthieu.aussaguel@gmail">Matthieu Aussaguel</a>, <
 + http://twitter.com/mattaussaguel
 + http://github.com/matthieua
 
-## To Do
-
-* Add test coverage using jasmine.js
-
 ## Licence
 
 Copyright &copy; 2012 Matthieu Aussaguel
